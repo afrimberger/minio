@@ -83,9 +83,7 @@ spec:
       {{- end }}
       {{- if and .Values.securityContext.enabled .Values.persistence.enabled }}
       securityContext:
-        runAsUser: {{ .Values.securityContext.runAsUser }}
-        runAsGroup: {{ .Values.securityContext.runAsGroup }}
-        fsGroup: {{ .Values.securityContext.fsGroup }}
+        {{ omit .Values.securityContext "enabled" "fsGroupChangePolicy" | toYaml | nindent 8 }}
         {{- if and (ge .Capabilities.KubeVersion.Major "1") (ge .Capabilities.KubeVersion.Minor "20") }}
         fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
         {{- end }}
@@ -191,9 +189,9 @@ spec:
               value: {{ tpl $val $ | quote }}
             {{- end }}
           resources: {{- toYaml .Values.resources | nindent 12 }}
-          {{- if and .Values.securityContext.enabled .Values.persistence.enabled }}
+          {{- if and .Values.containerSecurityContext.enabled .Values.persistence.enabled }}
           securityContext:
-            readOnlyRootFilesystem: {{ .Values.securityContext.readOnlyRootFilesystem | default false }}
+            {{ omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
         {{- with .Values.extraContainers }}
           {{- if eq (typeOf .) "string" }}

@@ -276,6 +276,18 @@ securityContext:
   fsGroup: 1000
   fsGroupChangePolicy: "OnRootMismatch"
   readOnlyRootFilesystem: false
+  seccompProfile:
+    type: RuntimeDefault
+
+## Add stateful containers to have container security context, if enabled MinIO will run as this
+## user and group and drops all capabilities NOTE: securityContext is only enabled if persistence.enabled=true
+containerSecurityContext:
+  enabled: true
+  readOnlyRootFilesystem: false
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true
+  capabilities:
+    drop: [ "ALL" ]
 
 # Additational pod annotations
 podAnnotations: {}
@@ -352,6 +364,13 @@ makePolicyJob:
     enabled: false
     runAsUser: 1000
     runAsGroup: 1000
+  containerSecurityContext:
+    enabled: false
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    capabilities:
+      drop: [ "ALL" ]
   resources:
     requests:
       memory: 128Mi
@@ -381,6 +400,15 @@ makeUserJob:
     enabled: false
     runAsUser: 1000
     runAsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+  containerSecurityContext:
+    enabled: false
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    capabilities:
+      drop: [ "ALL" ]
   resources:
     requests:
       memory: 128Mi
@@ -420,6 +448,15 @@ makeServiceAccountJob:
     enabled: false
     runAsUser: 1000
     runAsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+  containerSecurityContext:
+    enabled: false
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    capabilities:
+      drop: [ "ALL" ]
   resources:
     requests:
       memory: 128Mi
@@ -456,6 +493,15 @@ makeBucketJob:
     enabled: false
     runAsUser: 1000
     runAsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+  containerSecurityContext:
+    enabled: false
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    capabilities:
+      drop: [ "ALL" ]
   resources:
     requests:
       memory: 128Mi
@@ -473,6 +519,15 @@ customCommandJob:
     enabled: false
     runAsUser: 1000
     runAsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+  containerSecurityContext:
+    enabled: false
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    capabilities:
+      drop: [ "ALL" ]
   resources:
     requests:
       memory: 128Mi
@@ -488,6 +543,15 @@ postJob:
     runAsUser: 1000
     runAsGroup: 1000
     fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+  containerSecurityContext:
+    enabled: false
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    capabilities:
+      drop: [ "ALL" ]
   nodeSelector: {}
   tolerations: []
   affinity: {}
