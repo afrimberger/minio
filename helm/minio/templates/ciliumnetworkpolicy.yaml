@@ -26,6 +26,18 @@ spec:
         {{ template "minio.name" . }}-client: "true"
     {{- end }}
   egress:
+  - toEndpoints:
+    - matchLabels:
+        app: {{ template "minio.name" . }}
+        release: {{ .Release.Name }}
+  - toEndpoints:
+      - matchLabels:
+          k8s:io.kubernetes.pod.namespace: kube-system
+          k8s-app: kube-dns
+    toPorts:
+      - ports:
+          - port: '53'
+            protocol: UDP
   {{- range $entity := .Values.networkPolicy.egressEntities }}
   - toEntities:
     - {{ $entity }}
