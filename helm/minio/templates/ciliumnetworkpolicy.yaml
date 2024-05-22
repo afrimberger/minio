@@ -37,7 +37,7 @@ spec:
     toPorts:
       - ports:
           - port: '53'
-            protocol: UDP
+            protocol: ANY
   {{- range $entity := .Values.networkPolicy.egressEntities }}
   - toEntities:
     - {{ $entity }}
